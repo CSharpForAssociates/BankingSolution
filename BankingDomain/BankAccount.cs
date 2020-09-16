@@ -1,18 +1,19 @@
 ﻿using System;
 
+
 namespace BankingDomain
 {
     public class BankAccount
     {
         private decimal _balance = 1000M;
         private ICalculateBankAccountBonuses _bonusCalculator;
+        private INotifyTheFeds _fedNotifier;
 
-        public BankAccount(ICalculateBankAccountBonuses bonusCalculator)
+        public BankAccount(ICalculateBankAccountBonuses bonusCalculator, INotifyTheFeds fedNotifier)
         {
             _bonusCalculator = bonusCalculator;
+            _fedNotifier = fedNotifier;
         }
-
-       
 
         public decimal GetBalance()
         {
@@ -28,11 +29,14 @@ namespace BankingDomain
 
         public void Withdraw(decimal amountToWithdraw)
         {
-            if(amountToWithdraw > _balance)
+            if (amountToWithdraw > _balance)
             {
                 throw new OverdraftException();
             }
             _balance -= amountToWithdraw;
+
+            // notify the feds.
+            _fedNotifier.NotifyOfWithdraw(this, amountToWithdraw);
         }
     }
 }

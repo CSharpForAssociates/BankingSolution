@@ -16,7 +16,7 @@ namespace BankingUnitTests
             // given (I have an account that is uses my fake, stubbed version)
             var stubbedBonusCalculator = new Mock<ICalculateBankAccountBonuses>();
             stubbedBonusCalculator.Setup(c => c.GetDepositBonusFor(1000, 500)).Returns(42);
-            var account = new BankAccount(stubbedBonusCalculator.Object);
+            var account = new BankAccount(stubbedBonusCalculator.Object, new Mock<INotifyTheFeds>().Object);
             var openingBalance = account.GetBalance();
 
             // when I make a deposit (it should ask the stubbed version!)
