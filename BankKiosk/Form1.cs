@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -11,27 +12,25 @@ using System.Windows.Forms;
 
 namespace BankKiosk
 {
-    public partial class Form1 : Form, INotifyTheFeds
+    public partial class Form1 : Form
     {
         BankAccount _account;
-        public Form1()
+        public Form1(BankAccount account)
         {
             InitializeComponent();
-            _account = new BankAccount(
-                new StandardBonusCalculator(new StandardCutoffClock(new SystemTime())),
-                this
-                );
+            _account = account;
             UpdateUi();
+        }
+
+        public Form1()
+        {
         }
 
         private void UpdateUi()
         {
             this.Text = $"Your balance is {_account.GetBalance():c}";
         }
-        public void NotifyOfWithdraw(BankAccount bankAccount, decimal amountToWithdraw)
-        {
-            MessageBox.Show($"Notifying the feds of your withdrawal of {amountToWithdraw:c}");
-        }
+
 
         private void btnDeposit_Click(object sender, EventArgs e)
         {
@@ -72,6 +71,17 @@ namespace BankKiosk
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+            foreach(var x in Enumerable.Range(1,10000))
+            {
+                new SystemTime();
+            }
 
+            sw.Stop();
+            MessageBox.Show($"That took {sw.ElapsedMilliseconds} milliseconds");
+        }
     }
 }
