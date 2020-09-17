@@ -23,12 +23,13 @@ namespace BankKiosk
             // a piece of software that knows how to construct our objects for us.
             // it is a super factory. We'll train it, then say "You make the Form1"
             var container = Bootstrap();
-            new Form1();
+          
             Application.Run(container.GetInstance<Form1>()); // This is the "new new"
         }
 
         public static Container Bootstrap()
         {
+            // "Composition Root"
             var container = new Container(); // this'll be about our only use of the "new" keyword for a while..
                                              // if we are trying to avoid coupling, "new is glue" as Steve Smith says.
             container.Options.EnableAutoVerification = false;

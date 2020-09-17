@@ -22,9 +22,6 @@ namespace BankKiosk
             UpdateUi();
         }
 
-        public Form1()
-        {
-        }
 
         private void UpdateUi()
         {
